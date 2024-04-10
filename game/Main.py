@@ -2,7 +2,7 @@
 import pygame
 from pygame import Rect
 from Move import MOVEMENT_KEYS, move_snake_all, check_collision
-from Initialize import startup
+from Initialize import FOOD_EATEN, startup
 import random
 from Snake import Snake, SnakeNode
 
@@ -29,12 +29,11 @@ def snake_run(screen):
                 run = not run
             if event.type == pygame.KEYDOWN:
                 process_input(event.key,snake,food)
-            if event.type == pygame.USEREVENT:
+            if event.type == FOOD_EATEN:
                 food_spawned = False
         pygame.display.flip()
     #close game    
     pygame.quit()
-
 
 def process_input(key,snake:Snake, food:Rect):
     #movement

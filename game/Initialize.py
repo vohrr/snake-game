@@ -1,5 +1,8 @@
 import pygame
 
+FOOD_EATEN = pygame.USEREVENT + 1
+
+
 def initialize_window():
     
     SCREEN_WIDTH = 1280

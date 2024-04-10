@@ -1,6 +1,7 @@
 import pygame
 from pygame import Rect
 from Snake import Snake, SnakeNode, MOVEMENT_VALUE
+from Initialize import FOOD_EATEN
 
 MOVEMENT_KEYS = [pygame.K_a, pygame.K_LEFT, pygame.K_d, pygame.K_w, pygame.K_s, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]
 MOVE_LEFT = [pygame.K_a, pygame.K_LEFT]
@@ -44,7 +45,7 @@ def move_head(head:SnakeNode, x:bool, direction:int):
 def check_collision(snake:Snake, food:Rect):
     
     if snake.nodes[0].rect.colliderect(food):
-        pygame.event.post(pygame.event.Event(pygame.USEREVENT))
+        pygame.event.post(pygame.event.Event(FOOD_EATEN))
         snake.grow()
     
     if len(snake.nodes) > 1 and snake.nodes[0].rect.collidelist(snake.nodes[1:]) != -1:
