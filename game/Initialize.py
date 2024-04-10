@@ -13,8 +13,10 @@ def initialize_window():
 def initialize_clock():
     return pygame.time.Clock()
 
+def get_dt(clock):
+    return clock.tick(30) / 1000
+
 def startup():
     pygame.init()
-    clock = initialize_clock()
-    dt = clock.tick(60) / 1000
+    
     return initialize_window()

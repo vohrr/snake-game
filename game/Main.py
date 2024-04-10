@@ -2,7 +2,7 @@
 import pygame
 from pygame import Rect
 from Move import MOVEMENT_KEYS, move_snake_all, check_collision
-from Initialize import FOOD_EATEN, startup
+from Initialize import FOOD_EATEN, get_dt, initialize_clock, startup
 import random
 from Snake import Snake, SnakeNode
 
@@ -10,7 +10,7 @@ food_spawned = False
 current_direction = None
 
 #game loop
-def snake_run(screen):
+def snake_run(screen, clock):
     run = True
     global food_spawned
     global current_direction
@@ -21,7 +21,11 @@ def snake_run(screen):
         if not food_spawned:
             food = new_food(snake)
             food_spawned = True
+
         draw_snake(snake)
+        move_snake_all(current_direction, snake,screen)
+        check_collision(snake,food)
+        
         pygame.draw.rect(screen, 'red', food)
         #event handler
         for event in pygame.event.get():
@@ -32,14 +36,15 @@ def snake_run(screen):
             if event.type == FOOD_EATEN:
                 food_spawned = False
         pygame.display.flip()
+        clock.tick(10)
     #close game    
     pygame.quit()
 
 def process_input(key,snake:Snake, food:Rect):
+    global current_direction
     #movement
     if key in MOVEMENT_KEYS:
-        move_snake_all(key,snake,screen)
-        check_collision(snake,food)
+        current_direction = key
 
 #generate a coordinate that will be equal to our snake's size and have the same pixel centers        
 def new_food(snake:Snake):    
@@ -59,4 +64,5 @@ def draw_snake(snake:Snake):
 
 
 screen = startup()
-snake_run(screen)
+clock = initialize_clock()
+snake_run(screen, clock)

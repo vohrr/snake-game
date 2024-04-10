@@ -3,11 +3,12 @@ from pygame import Rect
 from Snake import Snake, SnakeNode, MOVEMENT_VALUE
 from Initialize import FOOD_EATEN
 
-MOVEMENT_KEYS = [pygame.K_a, pygame.K_LEFT, pygame.K_d, pygame.K_w, pygame.K_s, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]
-MOVE_LEFT = [pygame.K_a, pygame.K_LEFT]
+
 MOVE_RIGHT = [ pygame.K_d, pygame.K_RIGHT]
+MOVE_LEFT = [pygame.K_a, pygame.K_LEFT]
 MOVE_UP = [pygame.K_w, pygame.K_UP]
 MOVE_DOWN = [pygame.K_s, pygame.K_DOWN]
+MOVEMENT_KEYS = [pygame.K_a, pygame.K_LEFT, pygame.K_d, pygame.K_w, pygame.K_s, pygame.K_RIGHT, pygame.K_UP, pygame.K_DOWN]
 
 def move_snake_all(move_key, snake:Snake, screen):
     head = snake.nodes[0].rect
