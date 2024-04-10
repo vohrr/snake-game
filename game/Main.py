@@ -12,20 +12,22 @@ current_direction = None
 #game loop
 def snake_run(screen, clock):
     run = True
+    time_elapsed = 0
     global food_spawned
     global current_direction
     snake = Snake(screen)
     while run:
+        time_elapsed += clock.get_time()
         #refresh & redraw
         screen.fill('black')
         if not food_spawned:
             food = new_food(snake)
             food_spawned = True
-
+        if  time_elapsed >= get_dt():
+            time_elapsed = 0
+            move_snake_all(current_direction, snake,screen)
+            check_collision(snake,food)
         draw_snake(snake)
-        move_snake_all(current_direction, snake,screen)
-        check_collision(snake,food)
-        
         pygame.draw.rect(screen, 'red', food)
         #event handler
         for event in pygame.event.get():
@@ -36,7 +38,7 @@ def snake_run(screen, clock):
             if event.type == FOOD_EATEN:
                 food_spawned = False
         pygame.display.flip()
-        clock.tick(10)
+        clock.tick(60)
     #close game    
     pygame.quit()
 
