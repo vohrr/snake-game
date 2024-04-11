@@ -1,6 +1,8 @@
 import pygame
 
 FOOD_EATEN = pygame.USEREVENT + 1
+START_GAME = pygame.USEREVENT + 2
+ENTER_KEY = pygame.K_RETURN
 DT = 150
 
 def initialize_window():   

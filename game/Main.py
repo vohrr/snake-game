@@ -1,16 +1,30 @@
 
 import pygame
-from pygame import Rect
+from pygame import Rect, Surface
 from Move import MOVEMENT_KEYS, move_snake_all, check_collision
-from Initialize import FOOD_EATEN, get_dt, initialize_clock, startup
+from Initialize import ENTER_KEY, START_GAME, FOOD_EATEN, get_dt, initialize_clock, startup
 import random
-from Snake import Snake, SnakeNode
+from Start import draw_start_screen
+from Snake import Snake
 
 food_spawned = False
 current_direction = None
 
+def start_screen(screen):
+    run = True
+    while run:
+        draw_start_screen(screen)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+            if event.type == pygame.KEYDOWN:
+                process_input(event.key, None, None)
+            if event.type == START_GAME:
+                run = not run
+        pygame.display.flip()
+        clock.tick(60)
 #game loop
-def snake_run(screen, clock):
+def snake_run(screen:Surface, clock):
     run = True
     time_elapsed = 0
     global food_spawned
@@ -18,14 +32,14 @@ def snake_run(screen, clock):
     snake = Snake(screen)
     while run:
         time_elapsed += clock.get_time()
-        #refresh & redraw
+        #refresh & redrw
         screen.fill('black')
         if not food_spawned:
             food = new_food(snake)
             food_spawned = True
         if  time_elapsed >= get_dt():
             time_elapsed = 0
-            move_snake_all(current_direction, snake,screen)
+            move_snake_all(current_direction, snake, screen)
             check_collision(snake,food)
         draw_snake(snake)
         pygame.draw.rect(screen, 'red', food)
@@ -47,7 +61,8 @@ def process_input(key,snake:Snake, food:Rect):
     #movement
     if key in MOVEMENT_KEYS:
         current_direction = key
-
+    if key == ENTER_KEY:
+        pygame.event.post(pygame.event.Event(START_GAME))
 #generate a coordinate that will be equal to our snake's size and have the same pixel centers        
 def new_food(snake:Snake):    
     x_cells = screen.get_width() / 40 - 1
@@ -67,4 +82,5 @@ def draw_snake(snake:Snake):
 
 screen = startup()
 clock = initialize_clock()
+start_screen(screen)
 snake_run(screen, clock)
