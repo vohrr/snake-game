@@ -1,26 +1,9 @@
 
+from typing import List
 from pygame import Rect
 import pygame
 
 MOVEMENT_VALUE = 40
-
-class Snake:
-    nodes = []
-
-    def __init__(self,screen):
-        self.nodes.append(SnakeNode(None,pygame.Rect(((screen.get_width()-80)/2,screen.get_height()/2,MOVEMENT_VALUE,MOVEMENT_VALUE))))
-
-    def grow(self):
-        current_tail:SnakeNode = self.nodes[-1]
-        if current_tail.direction == 'left':
-            new_tail = SnakeNode(current_tail.direction, pygame.Rect((current_tail.rect.right, current_tail.rect.top, MOVEMENT_VALUE, MOVEMENT_VALUE)))
-        elif current_tail.direction == 'right':
-            new_tail = SnakeNode(current_tail.direction, pygame.Rect((current_tail.rect.left-MOVEMENT_VALUE, current_tail.rect.top, MOVEMENT_VALUE, MOVEMENT_VALUE)))
-        elif current_tail.direction == 'up':
-            new_tail = SnakeNode(current_tail.direction, pygame.Rect((current_tail.rect.left, current_tail.rect.bottom, MOVEMENT_VALUE, MOVEMENT_VALUE)))
-        elif current_tail.direction == 'down':
-            new_tail = SnakeNode(current_tail.direction, pygame.Rect((current_tail.rect.left, current_tail.rect.top-MOVEMENT_VALUE, MOVEMENT_VALUE, MOVEMENT_VALUE)))
-        self.nodes.append(new_tail)
         
 class SnakeNode:
     direction:str = None
@@ -45,3 +28,21 @@ class SnakeNode:
         if direction == 'down':
             return (0,1)
         return 0
+
+class Snake:
+    nodes:List[SnakeNode] = []
+
+    def __init__(self,screen):
+        self.nodes.append(SnakeNode(None,pygame.Rect(((screen.get_width()-80)/2,screen.get_height()/2,MOVEMENT_VALUE,MOVEMENT_VALUE))))
+
+    def grow(self):
+        current_tail:SnakeNode = self.nodes[-1]
+        if current_tail.direction == 'left':
+            new_tail = SnakeNode(current_tail.direction, pygame.Rect((current_tail.rect.right, current_tail.rect.top, MOVEMENT_VALUE, MOVEMENT_VALUE)))
+        elif current_tail.direction == 'right':
+            new_tail = SnakeNode(current_tail.direction, pygame.Rect((current_tail.rect.left-MOVEMENT_VALUE, current_tail.rect.top, MOVEMENT_VALUE, MOVEMENT_VALUE)))
+        elif current_tail.direction == 'up':
+            new_tail = SnakeNode(current_tail.direction, pygame.Rect((current_tail.rect.left, current_tail.rect.bottom, MOVEMENT_VALUE, MOVEMENT_VALUE)))
+        elif current_tail.direction == 'down':
+            new_tail = SnakeNode(current_tail.direction, pygame.Rect((current_tail.rect.left, current_tail.rect.top-MOVEMENT_VALUE, MOVEMENT_VALUE, MOVEMENT_VALUE)))
+        self.nodes.append(new_tail)
